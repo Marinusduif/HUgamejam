@@ -9,7 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: New Material
   m_Shader: {fileID: 4800000, guid: a19ff69030e91ab49b3080e2b08c6671, type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - BLOOM
   m_InvalidKeywords:
   - _BAKERY_NONE
   - _THICKNESSMAPINVERT_ON
@@ -118,23 +119,23 @@ Material:
     - _CullMode: 0
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _DisableWind: 0
+    - _DisableWind: 1
     - _DstBlend: 0
     - _Emission: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _HueVariationToggle: 0
-    - _Metallic: 0
+    - _Metallic: 1
     - _Mode: 0
     - _OcclusionStrength: 1
     - _OcclusionUVSource: 0
     - _Parallax: 0.02
-    - _ProbeTransmission: 1
+    - _ProbeTransmission: 1.4
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SSSAmbient: 0
-    - _SSSDist: 1
+    - _SSSDist: 0
     - _SSSIntensity: 1
     - _SSSPow: 1
     - _Smoothness: 0
@@ -147,14 +148,14 @@ Material:
     - _VertexColorInt: 0
     - _VertexColorIntOcclusion: 0
     - _WindSource: 2
-    - _WrappingFactor: 0.01
+    - _WrappingFactor: 1
     - _WrappingPowerFactor: 1
     - _ZWrite: 1
     - __dirty: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _HueVariationColor: {r: 1, g: 0.5, b: 0, a: 0.1}
+    - _HueVariationColor: {r: 1, g: 0.5019608, b: 0, a: 0.1}
     - _SSSCol: {r: 1, g: 1, b: 1, a: 1}
     - _WaveAndDistance: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
