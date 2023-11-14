@@ -1,66 +1,51 @@
 using UnityEngine;
-using System.Collections;
-using Unity.VisualScripting;
 
 public class movement : MonoBehaviour
 {
+    private float horizontal;
+    private float speed = 8f;
+    private float jumpingPower = 8f;
+    private bool isFacingRight = true;
 
-    //Movement
-    public float speed;
-    public float jump;
-    float moveVelocity;
-
-    //Grounded Vars
-    bool grounded = true;
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private LayerMask groundLayer;
 
     void Update()
     {
-        Jump();
+        horizontal = Input.GetAxisRaw("Horizontal");
+
+        if (Input.GetButtonDown("Jump") && IsGrounded())
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+        }
+
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+        }
+
+        Flip();
     }
 
     private void FixedUpdate()
     {
-        Move();
-    }
-    //Check if Grounded
-    void OnCollisionEnter2D()
-    {
-        grounded = true;
-    }
-    void OnCollisionExit2D()
-    {
-        grounded = false;
+        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
     }
 
-    private void Move()
+    private bool IsGrounded()
     {
-       
-        moveVelocity = 0;
+        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+    }
 
-        //Left Right Movement
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+    private void Flip()
+    {
+        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
         {
-            moveVelocity = -speed;
-        }
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-        {
-            moveVelocity = speed;
-        }
-
-        GetComponent<Rigidbody2D>().velocity = new Vector2(moveVelocity, GetComponent<Rigidbody2D>().velocity.y);
-
-    }
-
-    private void Jump()
-    {
-
-        //Jumping
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (grounded)
-            {
-                GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, jump);
-            }
+            isFacingRight = !isFacingRight;
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
         }
     }
 }
