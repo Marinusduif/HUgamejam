@@ -50,6 +50,8 @@ public class PlayerMovement : MonoBehaviour
 
     //Animation
     [SerializeField] Animator animator;
+    public float rotationSpeed = 5f;
+    [SerializeField] private GameObject playerObj;
 
 
     void Awake()
@@ -75,6 +77,18 @@ public class PlayerMovement : MonoBehaviour
     {
         MyInput();
         Look();
+
+
+        // Get the camera's forward direction without considering its Y component
+        Vector3 cameraForward = Camera.main.transform.forward;
+        cameraForward.y = 0f;
+        cameraForward.Normalize();
+
+        // Calculate the rotation angle based on the camera's forward direction
+        Quaternion targetRotation = Quaternion.LookRotation(cameraForward);
+
+        // Smoothly rotate the player towards the target rotation
+        playerObj.transform.rotation = Quaternion.Slerp(playerObj.transform.rotation, targetRotation, Time.deltaTime);
     }
 
     /// <summary>
@@ -138,8 +152,8 @@ public class PlayerMovement : MonoBehaviour
         //Apply forces to move player
         rb.AddForce(orientation.transform.forward * y * moveSpeed * Time.deltaTime * multiplier * multiplierV);
         rb.AddForce(orientation.transform.right * x * moveSpeed * Time.deltaTime * multiplier);
-        Debug.Log(rb.velocity);
-        if (rb.velocity.x > 0.01 && rb.velocity.z > 0.01)
+        Debug.Log(rb.velocity.magnitude);
+        if (rb.velocity.magnitude > 0.01)
         {
             animator.SetBool("isRunning", true);
         } else
