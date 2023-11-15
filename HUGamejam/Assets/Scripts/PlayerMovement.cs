@@ -48,6 +48,9 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 normalVector = Vector3.up;
     private Vector3 wallNormalVector;
 
+    //Animation
+    [SerializeField] Animator animator;
+
 
     void Awake()
     {
@@ -135,6 +138,14 @@ public class PlayerMovement : MonoBehaviour
         //Apply forces to move player
         rb.AddForce(orientation.transform.forward * y * moveSpeed * Time.deltaTime * multiplier * multiplierV);
         rb.AddForce(orientation.transform.right * x * moveSpeed * Time.deltaTime * multiplier);
+        Debug.Log(rb.velocity);
+        if (rb.velocity.x > 0.01 && rb.velocity.z > 0.01)
+        {
+            animator.SetBool("isRunning", true);
+        } else
+        {
+            animator.SetBool("isRunning", false);
+        }
 
     }
 
